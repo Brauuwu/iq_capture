@@ -43,6 +43,8 @@
         settingsModal: document.getElementById('settingsModal'),
         modalClose: document.getElementById('modalClose'),
         analysisContainer: document.getElementById('analysisContainer'),
+        illustrationContainer: document.getElementById('illustrationContainer'),
+        analysisUI: document.getElementById('analysisUI'),
         mainCanvas: document.getElementById('mainCanvas'),
         overviewCanvas: document.getElementById('overviewCanvas'),
         canvasWrapper: document.getElementById('canvasWrapper'),
@@ -356,7 +358,13 @@
     }
     
     function showAnalysisView() {
-        // dom.dropZoneContainer.style.display = 'none'; // Keep drop zone visible
+        if (dom.illustrationContainer) dom.illustrationContainer.style.display = 'none';
+        if (dom.analysisUI) dom.analysisUI.style.display = 'flex';
+        
+        // Give more space to the analysis view once active
+        if (dom.analysisContainer) dom.analysisContainer.style.flex = '2';
+        if (dom.dropZoneContainer) dom.dropZoneContainer.style.flex = '1';
+
         dom.analysisContainer.style.display = 'flex';
         dom.fileInfo.style.display = 'flex';
         // dom.btnNewFile.style.display = 'flex'; // Not needed since drop zone is visible
