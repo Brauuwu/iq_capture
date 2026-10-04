@@ -37,7 +37,7 @@
                     <span class="file-name" id="fileName"></span>
                     <span class="file-size" id="fileSize"></span>
                 </div>
-                <button class="btn btn-ghost" id="btnNewFile" style="display:none;" title="Mở file mới">
+                <button class="btn btn-ghost" id="btnNewFile" style="display:none;" title="Open new file">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                         <polyline points="14 2 14 8 20 8"/>
@@ -53,39 +53,13 @@
             </div>
         </header>
 
-        <!-- Drop Zone (Initial State) -->
-        <div class="drop-zone-container" id="dropZoneContainer">
-            <div class="drop-zone" id="dropZone">
-                <div class="drop-zone-content">
-                    <div class="drop-icon">
-                        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
-                            <rect x="8" y="12" width="48" height="40" rx="4" stroke="url(#dropGrad)" stroke-width="2" stroke-dasharray="6 4"/>
-                            <path d="M32 24V44M24 36L32 44L40 36" stroke="url(#dropGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                            <defs>
-                                <linearGradient id="dropGrad" x1="8" y1="12" x2="56" y2="52">
-                                    <stop offset="0%" stop-color="#6366f1"/>
-                                    <stop offset="100%" stop-color="#a78bfa"/>
-                                </linearGradient>
-                            </defs>
-                        </svg>
-                    </div>
-                    <h2>Kéo thả file .cf32 vào đây</h2>
-                    <p>hoặc nhấn để chọn file</p>
-                    <div class="supported-formats">
-                        <span class="format-tag">.cf32</span>
-                        <span class="format-tag">Complex Float32</span>
-                        <span class="format-tag">IQ Data</span>
-                    </div>
-                </div>
-                <input type="file" id="fileInput" accept=".cf32" hidden>
-            </div>
-        </div>
+        <!-- drop zone moved to right panel -->
 
         <!-- Settings Modal -->
         <div class="modal-overlay" id="settingsModal" style="display:none;">
             <div class="modal">
                 <div class="modal-header">
-                    <h2>Cấu hình phân tích</h2>
+                    <h2>Analysis Configuration</h2>
                     <button class="btn btn-ghost modal-close" id="modalClose">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -103,7 +77,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label for="centerFreq">Center Frequency (Hz) <span class="optional">tuỳ chọn</span></label>
+                        <label for="centerFreq">Center Frequency (Hz) <span class="optional">optional</span></label>
                         <div class="input-with-presets">
                             <input type="number" id="centerFreq" value="0" min="0" step="1000">
                             <div class="presets">
@@ -177,14 +151,16 @@
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <polygon points="5 3 19 12 5 21 5 3"/>
                         </svg>
-                        Phân tích
+                        Analyze
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Analysis View -->
-        <div class="analysis-container" id="analysisContainer" style="display:none;">
+        <!-- Main Layout Split -->
+        <div class="main-layout" style="display: flex; flex: 1; overflow: hidden; height: calc(100vh - 53px);">
+            <!-- Analysis View (Left) -->
+            <div class="analysis-container" id="analysisContainer" style="flex: 2; border-right: 1px solid var(--border-subtle); display: flex;">
             <!-- Toolbar -->
             <div class="toolbar">
                 <div class="toolbar-left">
@@ -260,13 +236,13 @@
                         <span class="info-item" id="infoDuration"></span>
                         <span class="info-item" id="infoSR"></span>
                     </div>
-                    <button class="btn btn-ghost btn-sm" id="btnSettings" title="Cài đặt">
+                    <button class="btn btn-ghost btn-sm" id="btnSettings" title="Settings">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="3"/>
                             <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
                         </svg>
                     </button>
-                    <button class="btn btn-ghost btn-sm" id="btnExport" title="Xuất ảnh">
+                    <button class="btn btn-ghost btn-sm" id="btnExport" title="Export Image">
                         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                             <polyline points="7 10 12 15 17 10"/>
@@ -280,7 +256,7 @@
             <div class="canvas-area" id="canvasArea">
                 <!-- Dynamic range slider -->
                 <div class="range-control" id="rangeControl">
-                    <label>Dải động (dB)</label>
+                    <label>Dynamic Range (dB)</label>
                     <div class="dual-range">
                         <input type="range" id="rangeMin" min="-140" max="0" value="-100" step="1">
                         <input type="range" id="rangeMax" min="-140" max="0" value="-20" step="1">
@@ -354,7 +330,7 @@
                             </button>
                         </div>
                         <div class="chirp-results" id="chirpResults">
-                            <div class="chirp-empty">Nhấn "Detect Chirps" để phân tích</div>
+                            <div class="chirp-empty">Click "Detect Chirps" to analyze</div>
                         </div>
                         <div class="chirp-legend">
                             <div class="legend-item"><span class="legend-color preamble"></span>Preamble</div>
@@ -380,10 +356,39 @@
             <div class="loading-overlay" id="loadingOverlay" style="display:none;">
                 <div class="loading-spinner">
                     <div class="spinner"></div>
-                    <p id="loadingText">Đang xử lý...</p>
+                    <p id="loadingText">Processing...</p>
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
+                </div>
+            </div>
+            </div>
+            
+            <!-- Drop Zone (Right side) -->
+            <div class="drop-zone-container" id="dropZoneContainer" style="flex: 1; min-width: 300px; display: flex;">
+                <div class="drop-zone" id="dropZone" style="border-radius: 0; border: none; border-left: 1px dashed var(--border-subtle); background: var(--bg-secondary); width: 100%;">
+                    <div class="drop-zone-content">
+                        <div class="drop-icon">
+                            <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                                <rect x="8" y="12" width="48" height="40" rx="4" stroke="url(#dropGrad)" stroke-width="2" stroke-dasharray="6 4"/>
+                                <path d="M32 24V44M24 36L32 44L40 36" stroke="url(#dropGrad)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                <defs>
+                                    <linearGradient id="dropGrad" x1="8" y1="12" x2="56" y2="52">
+                                        <stop offset="0%" stop-color="#6366f1"/>
+                                        <stop offset="100%" stop-color="#a78bfa"/>
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                        </div>
+                        <h2>Drag & drop .cf32 file here</h2>
+                        <p>or click to select file</p>
+                        <div class="supported-formats">
+                            <span class="format-tag">.cf32</span>
+                            <span class="format-tag">Complex Float32</span>
+                            <span class="format-tag">IQ Data</span>
+                        </div>
+                    </div>
+                    <input type="file" id="fileInput" accept=".cf32" hidden>
                 </div>
             </div>
         </div>

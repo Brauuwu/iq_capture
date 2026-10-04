@@ -152,7 +152,7 @@
 
     function handleFile(file) {
         if (!file.name.endsWith('.cf32')) {
-            alert('Chỉ hỗ trợ file .cf32 (Complex Float32)');
+            alert('Only .cf32 (Complex Float32) files are supported');
             return;
         }
 
@@ -237,7 +237,7 @@
 
         hideSettingsModal();
         showAnalysisView();
-        showLoading('Đang tính toán FFT...');
+        showLoading('Computing FFT...');
 
         // Use requestAnimationFrame + setTimeout to let the UI update
         setTimeout(() => {
@@ -256,7 +256,7 @@
             iqData, fftSize, windowFunc, getOverlap(),
             (progress) => {
                 dom.progressFill.style.width = (progress * 100) + '%';
-                dom.loadingText.textContent = `Đang tính FFT... ${Math.round(progress * 100)}%`;
+                dom.loadingText.textContent = `Computing FFT... ${Math.round(progress * 100)}%`;
             }
         );
 
@@ -356,16 +356,16 @@
     }
     
     function showAnalysisView() {
-        dom.dropZoneContainer.style.display = 'none';
+        // dom.dropZoneContainer.style.display = 'none'; // Keep drop zone visible
         dom.analysisContainer.style.display = 'flex';
         dom.fileInfo.style.display = 'flex';
-        dom.btnNewFile.style.display = 'flex';
+        // dom.btnNewFile.style.display = 'flex'; // Not needed since drop zone is visible
         resizeCanvas();
     }
 
     function showLoading(text) {
         dom.loadingOverlay.style.display = 'flex';
-        dom.loadingText.textContent = text || 'Đang xử lý...';
+        dom.loadingText.textContent = text || 'Processing...';
         dom.progressFill.style.width = '0%';
     }
 
@@ -1701,7 +1701,7 @@
         const bw = parseInt(dom.chirpBW.value);
         const threshold = parseInt(dom.chirpThreshold.value);
 
-        showLoading('Đang phát hiện chirp...');
+        showLoading('Detecting chirps...');
 
         setTimeout(() => {
             // Step 1: Detect peak frequencies within the currently zoomed-in frequency band
@@ -1737,8 +1737,8 @@
         if (chirpFrames.length === 0) {
             container.innerHTML = `
                 <div class="chirp-empty">
-                    Không tìm thấy frame nào.<br>
-                    Thử điều chỉnh threshold hoặc SF/BW.
+                    No frames found.<br>
+                    Try adjusting the threshold or SF/BW.
                 </div>`;
             return;
         }
