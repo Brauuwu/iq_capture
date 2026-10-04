@@ -62,6 +62,7 @@
         btnSettings: document.getElementById('btnSettings'),
         btnExport: document.getElementById('btnExport'),
         fileList: document.getElementById('fileList'),
+        toastContainer: document.getElementById('toastContainer'),
         sampleRateInput: document.getElementById('sampleRate'),
         centerFreqInput: document.getElementById('centerFreq'),
         fftSizeSelect: document.getElementById('fftSize'),
@@ -141,11 +142,11 @@
             });
         });
 
-        dz.addEventListener('dragenter', () => dz.classList.add('drag-over'));
-        dz.addEventListener('dragover', () => dz.classList.add('drag-over'));
-        dz.addEventListener('dragleave', () => dz.classList.remove('drag-over'));
+        dz.addEventListener('dragenter', () => dz.classList.add('dragover'));
+        dz.addEventListener('dragover', () => dz.classList.add('dragover'));
+        dz.addEventListener('dragleave', () => dz.classList.remove('dragover'));
         dz.addEventListener('drop', e => {
-            dz.classList.remove('drag-over');
+            dz.classList.remove('dragover');
             const files = e.dataTransfer.files;
             if (files.length > 0) handleFile(files[0]);
         });
@@ -156,9 +157,34 @@
         });
     }
 
+    // --- Toast Notifications ---
+    function showToast(message, type = 'info') {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        
+        let icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+        if (type === 'error') {
+            icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>';
+        } else if (type === 'success') {
+            icon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>';
+        }
+
+        toast.innerHTML = `${icon} <span>${message}</span>`;
+        dom.toastContainer.appendChild(toast);
+        
+        // Trigger reflow to start animation
+        toast.offsetHeight;
+        toast.classList.add('show');
+        
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
     function handleFile(file) {
         if (!file.name.endsWith('.cf32')) {
-            alert('Only .cf32 (Complex Float32) files are supported');
+            showToast('Only .cf32 (Complex Float32) files are supported', 'error');
             return;
         }
 
@@ -203,23 +229,13 @@
         
         loadedFiles.forEach(fileObj => {
             const item = document.createElement('div');
-            item.style.padding = '10px 12px';
-            item.style.background = 'var(--bg-tertiary)';
-            item.style.borderRadius = 'var(--radius-md)';
-            item.style.cursor = 'pointer';
-            item.style.display = 'flex';
-            item.style.justifyContent = 'space-between';
-            item.style.alignItems = 'center';
-            item.style.border = (fileName === fileObj.name) ? '1px solid var(--accent-primary)' : '1px solid transparent';
-            
-            // Hover effect
-            item.onmouseover = () => { if (fileName !== fileObj.name) item.style.border = '1px solid var(--border-subtle)'; };
-            item.onmouseout = () => { if (fileName !== fileObj.name) item.style.border = '1px solid transparent'; };
+            item.className = 'file-list-item';
+            if (fileName === fileObj.name) item.classList.add('active');
             
             item.innerHTML = `
-                <div style="display: flex; flex-direction: column;">
-                    <span style="font-weight: 500; font-size: 13px; color: var(--text-primary);">${fileObj.name}</span>
-                    <span style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">${formatBytes(fileObj.size)}</span>
+                <div>
+                    <span class="file-name">${fileObj.name}</span>
+                    <span class="file-size">${formatBytes(fileObj.size)}</span>
                 </div>
                 <button class="btn btn-primary btn-sm" style="padding: 4px 8px; font-size: 11px;" title="Analyze">
                     Analyze
