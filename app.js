@@ -12,6 +12,9 @@
     let currentColormap = 'viridis';
     let sampleRate = 2400000;
     let centerFreq = 0;
+    
+    // Global state for loaded files
+    let loadedFiles = [];
     let fftSize = 1024;
     let windowFunc = 'hann';
     let dynamicRangeMin = -100;
@@ -58,6 +61,7 @@
         btnAnalyze: document.getElementById('btnAnalyze'),
         btnSettings: document.getElementById('btnSettings'),
         btnExport: document.getElementById('btnExport'),
+        fileList: document.getElementById('fileList'),
         sampleRateInput: document.getElementById('sampleRate'),
         centerFreqInput: document.getElementById('centerFreq'),
         fftSizeSelect: document.getElementById('fftSize'),
@@ -158,17 +162,74 @@
             return;
         }
 
-        fileName = file.name;
-        dom.fileName.textContent = file.name;
-        dom.fileSize.textContent = formatBytes(file.size);
-
         // Read file as ArrayBuffer
         const reader = new FileReader();
         reader.onload = (e) => {
-            iqData = new Float32Array(e.target.result);
-            showSettingsModal();
+            const data = new Float32Array(e.target.result);
+            
+            const existingIndex = loadedFiles.findIndex(f => f.name === file.name);
+            let fileObj;
+            if (existingIndex >= 0) {
+                fileObj = loadedFiles[existingIndex];
+                fileObj.data = data;
+                fileObj.size = file.size;
+            } else {
+                fileObj = { name: file.name, size: file.size, data: data };
+                loadedFiles.push(fileObj);
+            }
+            
+            selectFile(fileObj);
         };
         reader.readAsArrayBuffer(file);
+    }
+    
+    function selectFile(fileObj) {
+        fileName = fileObj.name;
+        iqData = fileObj.data;
+        dom.fileName.textContent = fileObj.name;
+        dom.fileSize.textContent = formatBytes(fileObj.size);
+        renderFileList();
+        showSettingsModal();
+    }
+    
+    function renderFileList() {
+        if (!dom.fileList) return;
+        dom.fileList.innerHTML = '';
+        
+        if (loadedFiles.length === 0) {
+            dom.fileList.innerHTML = '<div style="color: var(--text-tertiary); font-size: 13px; font-style: italic; text-align: center; margin-top: 20px;">No files loaded yet.</div>';
+            return;
+        }
+        
+        loadedFiles.forEach(fileObj => {
+            const item = document.createElement('div');
+            item.style.padding = '10px 12px';
+            item.style.background = 'var(--bg-tertiary)';
+            item.style.borderRadius = 'var(--radius-md)';
+            item.style.cursor = 'pointer';
+            item.style.display = 'flex';
+            item.style.justifyContent = 'space-between';
+            item.style.alignItems = 'center';
+            item.style.border = (fileName === fileObj.name) ? '1px solid var(--accent-primary)' : '1px solid transparent';
+            
+            // Hover effect
+            item.onmouseover = () => { if (fileName !== fileObj.name) item.style.border = '1px solid var(--border-subtle)'; };
+            item.onmouseout = () => { if (fileName !== fileObj.name) item.style.border = '1px solid transparent'; };
+            
+            item.innerHTML = `
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-weight: 500; font-size: 13px; color: var(--text-primary);">${fileObj.name}</span>
+                    <span style="font-size: 11px; color: var(--text-tertiary); margin-top: 2px;">${formatBytes(fileObj.size)}</span>
+                </div>
+                <button class="btn btn-primary btn-sm" style="padding: 4px 8px; font-size: 11px;" title="Analyze">
+                    Analyze
+                </button>
+            `;
+            item.addEventListener('click', () => {
+                selectFile(fileObj);
+            });
+            dom.fileList.appendChild(item);
+        });
     }
 
     // --- Settings Modal ---

@@ -370,8 +370,8 @@
             </div>
             
             <!-- Drop Zone (Right side) -->
-            <div class="drop-zone-container" id="dropZoneContainer" style="flex: 2; min-width: 300px; display: flex;">
-                <div class="drop-zone" id="dropZone" style="border-radius: 0; border: none; border-left: 1px dashed var(--border-subtle); background: var(--bg-secondary); width: 100%;">
+            <div class="drop-zone-container" id="dropZoneContainer" style="flex: 2; min-width: 300px; display: flex; flex-direction: column; border-left: 1px dashed var(--border-subtle); background: var(--bg-secondary);">
+                <div class="drop-zone" id="dropZone" style="flex: 1; border-radius: 0; border: none; background: transparent; width: 100%;">
                     <div class="drop-zone-content">
                         <div class="drop-icon">
                             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
@@ -394,6 +394,15 @@
                         </div>
                     </div>
                     <input type="file" id="fileInput" accept=".cf32" hidden>
+                </div>
+                
+                <!-- Uploaded Files List -->
+                <div class="uploaded-files-section" style="flex: 1; border-top: 1px dashed var(--border-subtle); padding: 20px; display: flex; flex-direction: column;">
+                    <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Loaded Files</h3>
+                    <div id="fileList" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                        <!-- File items will go here -->
+                        <div style="color: var(--text-tertiary); font-size: 13px; font-style: italic; text-align: center; margin-top: 20px;">No files loaded yet.</div>
+                    </div>
                 </div>
             </div>
         </div>
