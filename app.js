@@ -216,10 +216,18 @@
         dom.fileSize.textContent = formatBytes(fileObj.size);
         renderFileList();
         
-        // Shrink the right half immediately after a file is loaded
-        if (dom.analysisContainer) dom.analysisContainer.style.flex = '1';
+        // Shrink the right half and show the left half immediately after a file is loaded
+        if (dom.analysisContainer) {
+            dom.analysisContainer.style.display = 'flex';
+            dom.analysisContainer.style.flex = '1';
+        }
         if (dom.dropZoneContainer) {
             dom.dropZoneContainer.style.flex = '0 0 320px';
+            // Find the inner wrapper and adjust its padding so it fits the sidebar
+            const wrapper = dom.dropZoneContainer.firstElementChild;
+            if (wrapper) {
+                wrapper.style.padding = '10px';
+            }
         }
         
         showSettingsModal();
@@ -443,7 +451,6 @@
     
     function showAnalysisView() {
         if (dom.illustrationContainer) dom.illustrationContainer.style.display = 'none';
-        if (dom.analysisUI) dom.analysisUI.style.display = 'flex';
         
         // Ensure right panel stays shrunken
         if (dom.analysisContainer) dom.analysisContainer.style.flex = '1';

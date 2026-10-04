@@ -159,13 +159,10 @@
 
         <!-- Main Layout Split -->
         <div class="main-layout" style="display: flex; flex: 1; overflow: hidden; height: calc(100vh - 53px);">
-            <!-- Analysis View (Left) -->
-            <div class="analysis-container" id="analysisContainer" style="flex: 1; border-right: 1px solid var(--border-subtle); display: flex; flex-direction: column; background: var(--bg-primary);">
-                <div id="illustrationContainer" style="flex: 1; display: flex; align-items: center; justify-content: center; padding: 20px;">
-                    <!-- Empty glass container to show wallpaper -->
-                    <div style="width: 100%; height: 100%; border-radius: var(--radius-xl); background: rgba(255,255,255,0.02); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.05); box-shadow: inset 0 0 50px rgba(0,0,0,0.2);"></div>
-                </div>
-                <div id="analysisUI" style="display: none; flex: 1; flex-direction: column;">
+            <!-- Analysis View (Left) - Hidden Initially -->
+            <div class="analysis-container" id="analysisContainer" style="display: none; flex: 1; border-right: 1px solid var(--border-subtle); flex-direction: column; background: var(--bg-primary);">
+                <div id="illustrationContainer" style="display: none;"></div>
+                <div id="analysisUI" style="display: flex; flex: 1; flex-direction: column;">
             <!-- Toolbar -->
             <div class="toolbar">
                 <div class="toolbar-left">
@@ -370,9 +367,10 @@
             </div> <!-- End hidden UI -->
             </div>
             
-            <!-- Drop Zone (Right side) -->
-            <div class="drop-zone-container" id="dropZoneContainer" style="flex: 2; min-width: 300px; display: flex; flex-direction: column; border-left: 1px dashed var(--border-subtle); background: var(--bg-secondary);">
-                <div class="drop-zone" id="dropZone" style="flex: 1; border-radius: 0; border: none; background: transparent; width: 100%;">
+            <!-- Drop Zone (Right side / Full screen initially) -->
+            <div class="drop-zone-container" id="dropZoneContainer" style="flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <div style="display: flex; flex-direction: column; width: 100%; max-width: 600px; height: 100%; padding: 40px 20px;">
+                    <div class="drop-zone" id="dropZone" style="flex: 1; border-radius: 20px; border: none; background: transparent; width: 100%; min-height: 300px;">
                     <div class="drop-zone-content">
                         <div class="drop-icon">
                             <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
@@ -398,13 +396,14 @@
                 </div>
                 
                 <!-- Uploaded Files List -->
-                <div class="uploaded-files-section" style="flex: 1; border-top: 1px dashed var(--border-subtle); padding: 20px; display: flex; flex-direction: column;">
+                <div class="uploaded-files-section" style="width: 100%; max-width: 600px; margin-top: 20px; padding: 20px; display: flex; flex-direction: column; background: rgba(255,255,255,0.02); border-radius: var(--radius-lg); border: 1px solid rgba(255,255,255,0.05);">
                     <h3 style="margin-top: 0; margin-bottom: 12px; font-size: 14px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px;">Loaded Files</h3>
-                    <div id="fileList" style="overflow-y: auto; display: flex; flex-direction: column; gap: 8px;">
+                    <div id="fileList" style="overflow-y: auto; max-height: 200px; display: flex; flex-direction: column; gap: 8px;">
                         <!-- File items will go here -->
-                        <div style="color: var(--text-tertiary); font-size: 13px; font-style: italic; text-align: center; margin-top: 20px;">No files loaded yet.</div>
+                        <div style="color: var(--text-tertiary); font-size: 13px; font-style: italic; text-align: center; margin-top: 10px;">No files loaded yet.</div>
                     </div>
                 </div>
+                </div> <!-- End center wrapper -->
             </div>
         </div>
     </div>
