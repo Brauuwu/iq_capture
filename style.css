@@ -1437,3 +1437,45 @@ body::before {
     filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.4));
     margin-bottom: 16px;
 }
+/* --- Wallpaper Overrides --- */
+body {
+    background-image: url('wallpaper.jpg') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+body::before {
+    /* Disable the previous radial gradients so the wallpaper is fully visible */
+    background-image: none !important;
+    background: rgba(5, 5, 10, 0.4) !important; /* Slight dark overlay for text readability */
+}
+
+/* Make containers translucent to show wallpaper */
+.app-header {
+    background: rgba(17, 17, 24, 0.4) !important;
+    backdrop-filter: blur(20px) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+}
+
+.analysis-container {
+    background: rgba(10, 10, 15, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+.drop-zone-container {
+    background: rgba(15, 15, 20, 0.3) !important;
+    backdrop-filter: blur(15px) !important;
+}
+
+#illustrationContainer {
+    background: transparent !important;
+}
+#illustrationContainer::before {
+    display: none !important; /* Hide the glowing orb */
+}
+
+/* Keep the drop-zone itself visible but more glass-like */
+.drop-zone {
+    background: linear-gradient(145deg, rgba(30, 30, 40, 0.3), rgba(15, 15, 25, 0.5)) !important;
+}
