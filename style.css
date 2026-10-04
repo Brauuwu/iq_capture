@@ -1326,3 +1326,114 @@ select {
 .toast.success {
     border-left-color: var(--success);
 }
+/* --- Premium UI/UX Overrides for Start Screen --- */
+
+/* Header Title Gradient */
+.header-title h1 {
+    font-size: 19px !important;
+    font-weight: 700 !important;
+    letter-spacing: -0.5px;
+    background: linear-gradient(135deg, #fff 0%, #a78bfa 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 4px 20px rgba(167, 139, 250, 0.4);
+    margin-bottom: 2px;
+}
+.header-subtitle {
+    color: var(--text-tertiary);
+    font-size: 11px !important;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+/* Illustration Container Glow & Gradient */
+#illustrationContainer {
+    background: radial-gradient(circle at center, rgba(30, 30, 42, 0.8) 0%, var(--bg-primary) 70%) !important;
+    position: relative;
+    overflow: hidden;
+}
+#illustrationContainer::before {
+    content: '';
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    background: radial-gradient(circle at center, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    filter: blur(50px);
+    z-index: 0;
+    pointer-events: none;
+}
+#illustrationContainer img {
+    z-index: 1;
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255,255,255,0.05) inset !important;
+}
+
+/* Premium Drop Zone */
+.drop-zone {
+    margin: 20px !important;
+    height: calc(100% - 40px) !important;
+    background: linear-gradient(145deg, rgba(30, 30, 40, 0.5), rgba(15, 15, 25, 0.8)) !important;
+    backdrop-filter: blur(12px) !important;
+    border: 2px dashed rgba(167, 139, 250, 0.3) !important;
+    border-radius: 20px !important;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.3), 0 8px 30px rgba(0, 0, 0, 0.2) !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.drop-zone:hover {
+    border-color: var(--accent-primary) !important;
+    background: linear-gradient(145deg, rgba(40, 40, 55, 0.6), rgba(20, 20, 35, 0.9)) !important;
+    transform: translateY(-2px);
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.2), 0 12px 40px rgba(99, 102, 241, 0.15) !important;
+}
+.drop-zone.dragover {
+    background: linear-gradient(145deg, rgba(50, 50, 75, 0.7), rgba(30, 30, 50, 0.9)) !important;
+    border-color: var(--accent-primary) !important;
+    border-style: solid !important;
+    transform: scale(1.02);
+}
+.drop-zone h2 {
+    font-size: 18px !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    margin-top: 16px !important;
+    margin-bottom: 8px !important;
+    letter-spacing: -0.2px;
+}
+.drop-zone p {
+    font-size: 13px !important;
+    color: var(--text-secondary) !important;
+    margin-bottom: 24px !important;
+}
+
+/* Format Tags in Drop Zone */
+.format-tag {
+    background: rgba(99, 102, 241, 0.1) !important;
+    color: var(--accent-primary-hover) !important;
+    border: 1px solid rgba(99, 102, 241, 0.2) !important;
+    padding: 6px 14px !important;
+    border-radius: 20px !important;
+    font-size: 12px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1) !important;
+    transition: all 0.2s !important;
+}
+.format-tag:hover {
+    background: rgba(99, 102, 241, 0.2) !important;
+    transform: translateY(-1px);
+}
+
+/* Enhancing Body Grid Background */
+body::before {
+    background-image: 
+        radial-gradient(ellipse 80% 60% at 50% -20%, rgba(99, 102, 241, 0.15), transparent),
+        radial-gradient(ellipse 60% 50% at 80% 120%, rgba(139, 92, 246, 0.1), transparent) !important;
+}
+/* Drop Icon Animation */
+.drop-icon {
+    animation: floatAnim 4s ease-in-out infinite;
+    filter: drop-shadow(0 4px 12px rgba(99, 102, 241, 0.4));
+    margin-bottom: 16px;
+}
