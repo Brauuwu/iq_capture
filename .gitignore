@@ -1,0 +1,3 @@
+*.cf32
+.env
+.DS_Store
