@@ -215,6 +215,13 @@
         dom.fileName.textContent = fileObj.name;
         dom.fileSize.textContent = formatBytes(fileObj.size);
         renderFileList();
+        
+        // Shrink the right half immediately after a file is loaded
+        if (dom.analysisContainer) dom.analysisContainer.style.flex = '1';
+        if (dom.dropZoneContainer) {
+            dom.dropZoneContainer.style.flex = '0 0 320px';
+        }
+        
         showSettingsModal();
     }
     
@@ -438,9 +445,9 @@
         if (dom.illustrationContainer) dom.illustrationContainer.style.display = 'none';
         if (dom.analysisUI) dom.analysisUI.style.display = 'flex';
         
-        // Give more space to the analysis view once active
-        if (dom.analysisContainer) dom.analysisContainer.style.flex = '2';
-        if (dom.dropZoneContainer) dom.dropZoneContainer.style.flex = '1';
+        // Ensure right panel stays shrunken
+        if (dom.analysisContainer) dom.analysisContainer.style.flex = '1';
+        if (dom.dropZoneContainer) dom.dropZoneContainer.style.flex = '0 0 320px';
 
         dom.analysisContainer.style.display = 'flex';
         dom.fileInfo.style.display = 'flex';
